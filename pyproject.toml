@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "yurenizer-backend"
+version = "0.0.1"
+description = "Backend for yurenizer"
+authors = ["sea-turt1e <h.yamada.bg@gmail.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115.4"
+uvicorn = "^0.32.0"
+
+[tool.poetry.group.dev.dependencies]
+ipdb = "^0.13.13"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
