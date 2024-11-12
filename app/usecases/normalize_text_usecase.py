@@ -1,9 +1,14 @@
-from yurenizer import SynonymNormalizer
+from yurenizer import NormalizerConfig
+
+from app.interfaces.repositories.normalize_text_repositry import NormalizeRepositoryInterface
+from app.interfaces.usecases.normalize_text_usecase import NormalizeTextUseCaseInterface
+from app.schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 
 
-class NormalizeTextUsecase:
-    def __init__(self) -> None:
-        self.synonym_nomalizer = SynonymNormalizer("app/data/synonyms.txt")
+class NormalizeTextUseCase(NormalizeTextUseCaseInterface):
+    def __init__(self, repository: NormalizeRepositoryInterface):
+        self.repository = repository
 
-    def execute(self, text) -> str:
-        return self.synonym_nomalizer.normalize(text)
+    async def execute(self, text: str, config: NormalizerConfig = NormalizerConfig()) -> NormalizeTextResponse:
+        normalized_text = await self.repository.normalize_text(text, config)
+        return NormalizeTextResponse(text=normalized_text, length=len(normalized_text))
