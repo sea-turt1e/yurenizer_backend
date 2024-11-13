@@ -1,18 +1,40 @@
-from fastapi import APIRouter, Depends
-from pydantic import BaseModel
+import logging
 
-from app.api.deps import get_normalize_text_usecase
+from fastapi import APIRouter, Depends
+from yurenizer import NormalizerConfig
+
+from app.controllers.get_normalize_controller import GetNormalizeController
 from app.initializer import get_normalize_controller
-from app.interfaces.usecases.normalize_text_usecase import NormalizeTextUseCaseInterface
-from app.schemes.normalize import NormalizeTextRequest, NormalizeTextResponse  # NormalizeTextResponseをインポート
+from app.schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 
 router = APIRouter()
 
 
-@router.get("/normalize_text", response_model=NormalizeTextResponse)
-async def normalize(
+@router.post("/normalize_text", response_model=NormalizeTextResponse)
+async def normalize_text(
     text: str,
-    controller=Depends(lambda: get_normalize_controller),
+    request: NormalizeTextRequest,
+    controller: GetNormalizeController = Depends(lambda: get_normalize_controller),
 ):
-    result = await controller.execute(text)
-    return NormalizeTextResponse(text=result.text, length=result.length)
+    config = request.config
+    normalizer_config = NormalizerConfig(
+        unify_level=config.unify_level,
+        taigen=config.taigen,
+        yougen=config.yougen,
+        expansion=config.expansion,
+        other_language=config.other_language,
+        alias=config.alias,
+        old_name=config.old_name,
+        misuse=config.misuse,
+        alphabetic_abbreviation=config.alphabetic_abbreviation,
+        non_alphabetic_abbreviation=config.non_alphabetic_abbreviation,
+        alphabet=config.alphabet,
+        orthographic_variation=config.orthographic_variation,
+        missspelling=config.missspelling,
+        custom_synonym=config.custom_synonym,
+    )
+    print(f"Request: {text}")
+    print(f"Request: {normalizer_config}")
+
+    result = await controller.execute(text, normalizer_config)
+    return NormalizeTextResponse(text=result.text)

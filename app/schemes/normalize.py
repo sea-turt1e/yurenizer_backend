@@ -1,10 +1,10 @@
 from pydantic import BaseModel
+from yurenizer import NormalizerConfig
 
 
 class NormalizeTextRequest(BaseModel):
-    text: str
+    config: NormalizerConfig = NormalizerConfig()
 
 
 class NormalizeTextResponse(BaseModel):
     text: str
-    length: int
