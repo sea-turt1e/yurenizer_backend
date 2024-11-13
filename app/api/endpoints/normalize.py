@@ -30,11 +30,8 @@ async def normalize_text(
         non_alphabetic_abbreviation=config.non_alphabetic_abbreviation,
         alphabet=config.alphabet,
         orthographic_variation=config.orthographic_variation,
-        missspelling=config.missspelling,
+        misspelling=config.misspelling,
         custom_synonym=config.custom_synonym,
     )
-    print(f"Request: {text}")
-    print(f"Request: {normalizer_config}")
-
     result = await controller.execute(text, normalizer_config)
     return NormalizeTextResponse(text=result.text)
