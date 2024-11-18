@@ -1,6 +1,12 @@
+import logging
+import logging.config
+
 from app.controllers.get_normalize_controller import GetNormalizeController
 from app.repositories.yurenizer_repositry import YurenizerRepository
 from app.usecases.normalize_text_usecase import NormalizeTextUseCase
+
+logging.config.fileConfig("app/logging_debug.conf")
+logger = logging.getLogger(__name__)
 
 
 def initilize():

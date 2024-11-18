@@ -9,6 +9,8 @@ from app.schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 
 router = APIRouter()
 
+logger = logging.getLogger(__name__)
+
 
 @router.post("/normalize_text", response_model=NormalizeTextResponse)
 async def normalize_text(
@@ -33,5 +35,7 @@ async def normalize_text(
         misspelling=config.misspelling,
         custom_synonym=config.custom_synonym,
     )
+    logger.info(f"normalizer_config: {normalizer_config}")
     result = await controller.execute(text, normalizer_config)
+    logger.info(f"result: {result}")
     return NormalizeTextResponse(text=result.text)
