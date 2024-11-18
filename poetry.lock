@@ -216,6 +216,20 @@ qa = ["flake8 (==5.0.4)", "mypy (==0.971)", "types-setuptools (==67.2.0.1)"]
 testing = ["Django", "attrs", "colorama", "docopt", "pytest (<7.0.0)"]
 
 [[package]]
+name = "mangum"
+version = "0.19.0"
+description = "AWS Lambda support for ASGI applications"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "mangum-0.19.0-py3-none-any.whl", hash = "sha256:e500b35f495d5e68ac98bc97334896d6101523f2ee2c57ba6a61893b65266e59"},
+    {file = "mangum-0.19.0.tar.gz", hash = "sha256:e388e7c491b7b67970f8234e46fd4a7b21ff87785848f418de08148f71cf0bd6"},
+]
+
+[package.dependencies]
+typing-extensions = "*"
+
+[[package]]
 name = "matplotlib-inline"
 version = "0.1.7"
 description = "Inline Matplotlib backend for Jupyter"
@@ -494,6 +508,50 @@ anyio = ">=3.4.0,<5"
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7)", "pyyaml"]
 
 [[package]]
+name = "sudachidict-full"
+version = "20241021"
+description = "Sudachi Dictionary for SudachiPy - Full Edition"
+optional = false
+python-versions = "*"
+files = [
+    {file = "SudachiDict-full-20241021.tar.gz", hash = "sha256:d673cf14632a5797b5e6124c7f0da05841d2557e32ff176297f4c8eda8ce93e3"},
+]
+
+[package.dependencies]
+SudachiPy = ">=0.5,<0.7"
+
+[[package]]
+name = "sudachipy"
+version = "0.6.8"
+description = "Python version of Sudachi, the Japanese Morphological Analyzer"
+optional = false
+python-versions = "*"
+files = [
+    {file = "SudachiPy-0.6.8-cp310-cp310-macosx_10_12_universal2.whl", hash = "sha256:85f91a6ac347d2fbf478ae96e0e08efe7b8e47fb7cdfb770e90611be5669cabb"},
+    {file = "SudachiPy-0.6.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:361ef3e3333ef4165b517668878dd80fbed6d3c443659b9dc3236132ea8f7fbb"},
+    {file = "SudachiPy-0.6.8-cp310-cp310-win_amd64.whl", hash = "sha256:081c52918bdae35f564637db146389f0a48b3b5263f215859b4d1ae311a7a474"},
+    {file = "SudachiPy-0.6.8-cp311-cp311-macosx_10_12_universal2.whl", hash = "sha256:0a6cb506e402933023ea07035fc3e81d65880392afcdb2f09676027882b09e73"},
+    {file = "SudachiPy-0.6.8-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d19db58be100b05362d00d0ad5cd29aff6da31807967b302f35bd43dd59e141f"},
+    {file = "SudachiPy-0.6.8-cp311-cp311-win_amd64.whl", hash = "sha256:27833ae472220dc46f934edd9a8839b0134279c0113f7da01d67e424bfe2d0ab"},
+    {file = "SudachiPy-0.6.8-cp312-cp312-macosx_10_12_universal2.whl", hash = "sha256:7f75d4627fa141bc02951c5ce17ec7055faf2e9424d10c697e923c27b7936369"},
+    {file = "SudachiPy-0.6.8-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:33afa2efa4d98ae3cbea0ab8cc09c71b0405d188074d0c4cef2b2080a51caafe"},
+    {file = "SudachiPy-0.6.8-cp312-cp312-win_amd64.whl", hash = "sha256:2a2f22605093ed7994eb7edced2a21c8ac71b9ecc9877e94539414b1a60d172a"},
+    {file = "SudachiPy-0.6.8-cp37-cp37m-macosx_10_12_universal2.whl", hash = "sha256:6ab54826d151dcf69dfd168e784887d2701c553cf3f455d28b171e64584a404d"},
+    {file = "SudachiPy-0.6.8-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9d9aa1890b3f43af0ff691f6de8f770ab9ea58506d9e1ee3c8bb9aae460c58d2"},
+    {file = "SudachiPy-0.6.8-cp37-cp37m-win_amd64.whl", hash = "sha256:686a890a376589e78b606548f9d5427a43ce8492edc46bcd09c104d9df594f7c"},
+    {file = "SudachiPy-0.6.8-cp38-cp38-macosx_10_12_universal2.whl", hash = "sha256:8d19395daf8c96e4a14df18c4df634e1f7caa7790917ab089c174ffcbdcaf4c0"},
+    {file = "SudachiPy-0.6.8-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d9cae943138ef2e9d0126a5a4110dca5d6e5d8f35dc3f909e3ef1aeff3aa565b"},
+    {file = "SudachiPy-0.6.8-cp38-cp38-win_amd64.whl", hash = "sha256:e8de107715dcd1d566837c91c6a10572efc171d4969a505176ecb37efe65cb48"},
+    {file = "SudachiPy-0.6.8-cp39-cp39-macosx_10_12_universal2.whl", hash = "sha256:d52ddc5001b0125375419409adee012f8957b15ad1a4017e18f30c54ba69f9b7"},
+    {file = "SudachiPy-0.6.8-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c2a7c98f75567bd8488a1597c83f8f6abb4c15c577d0b5f92fa0c31c8304dae4"},
+    {file = "SudachiPy-0.6.8-cp39-cp39-win_amd64.whl", hash = "sha256:1ae6e533f98e510e751d7355ec512aff3a7dac73539abb61c731cdcc316a183f"},
+    {file = "SudachiPy-0.6.8.tar.gz", hash = "sha256:3d1c9086ff09afacc34d02fdb2112aab7cff1d78f0d4b81f78b9ba01c36d4888"},
+]
+
+[package.extras]
+tests = ["sudachidict-core", "tokenizers"]
+
+[[package]]
 name = "traitlets"
 version = "5.14.3"
 description = "Traitlets Python configuration system"
@@ -548,7 +606,22 @@ files = [
     {file = "wcwidth-0.2.13.tar.gz", hash = "sha256:72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"},
 ]
 
+[[package]]
+name = "yurenizer"
+version = "0.1.2"
+description = "A library for standardizing terms with spelling variations using a synonym dictionary."
+optional = false
+python-versions = "<4.0,>=3.11"
+files = [
+    {file = "yurenizer-0.1.2-py3-none-any.whl", hash = "sha256:1d07e35f6b83569cb01516a3893012b5dec8cada0c93fb37eccca00cf50dcfa0"},
+    {file = "yurenizer-0.1.2.tar.gz", hash = "sha256:795d1debce1c862e63cb4a50a8a2f564661f2556d26dc6ef21678e45270992d5"},
+]
+
+[package.dependencies]
+sudachidict-full = "*"
+sudachipy = ">=0.6.8"
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "552e8a263804b6f6ee5f5edd8e50be6721715e21a79fe023709b12386b8d3b3a"
+content-hash = "d1069f276cb6558ebe3a171fdd8d8f996d6088fd5c80cc5fa1a092b9e68837ba"

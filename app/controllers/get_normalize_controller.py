@@ -1,8 +1,7 @@
 import logging
 
+from usecases.normalize_text_usecase import NormalizeTextUseCase
 from yurenizer import NormalizerConfig
-
-from app.usecases.normalize_text_usecase import NormalizeTextUseCase
 
 logger = logging.getLogger(__name__)
 

@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 
+from schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 from yurenizer import NormalizerConfig
-
-from app.schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 
 
 class NormalizeTextUseCaseInterface(ABC):

@@ -1,11 +1,10 @@
 import logging
 
+from controllers.get_normalize_controller import GetNormalizeController
 from fastapi import APIRouter, Depends
+from initializer import get_normalize_controller
+from schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 from yurenizer import NormalizerConfig
-
-from app.controllers.get_normalize_controller import GetNormalizeController
-from app.initializer import get_normalize_controller
-from app.schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 
 router = APIRouter()
 
