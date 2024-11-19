@@ -17,6 +17,8 @@ async def normalize_text(
     request: NormalizeTextRequest,
     controller: GetNormalizeController = Depends(lambda: get_normalize_controller),
 ):
+    if len(text) > 1000:
+        raise ValueError("The text is too long. Please input text less than 1000 characters.")
     config = request.config
     normalizer_config = NormalizerConfig(
         unify_level=config.unify_level,
@@ -35,6 +37,10 @@ async def normalize_text(
         custom_synonym=config.custom_synonym,
     )
     logger.info(f"normalizer_config: {normalizer_config}")
-    result = await controller.execute(text, normalizer_config)
-    logger.info(f"result: {result}")
+    try:
+        result = await controller.execute(text, normalizer_config)
+        logger.info(f"result: {result}")
+    except Exception as e:
+        logger.error(f"error: {e}")
+        raise e
     return NormalizeTextResponse(text=result.text)
