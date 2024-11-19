@@ -1,13 +1,14 @@
 import logging
 
+from controllers.get_normalize_controller import GetNormalizeController
 from fastapi import APIRouter, Depends
+from initializer import get_normalize_controller
+from schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 from yurenizer import NormalizerConfig
 
-from app.controllers.get_normalize_controller import GetNormalizeController
-from app.initializer import get_normalize_controller
-from app.schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
-
 router = APIRouter()
+
+logger = logging.getLogger(__name__)
 
 
 @router.post("/normalize_text", response_model=NormalizeTextResponse)
@@ -33,5 +34,7 @@ async def normalize_text(
         misspelling=config.misspelling,
         custom_synonym=config.custom_synonym,
     )
+    logger.info(f"normalizer_config: {normalizer_config}")
     result = await controller.execute(text, normalizer_config)
+    logger.info(f"result: {result}")
     return NormalizeTextResponse(text=result.text)

@@ -1,6 +1,5 @@
+from interfaces.repositories.normalize_text_repositry import NormalizeRepositoryInterface
 from yurenizer import NormalizerConfig, SynonymNormalizer
-
-from app.interfaces.repositories.normalize_text_repositry import NormalizeRepositoryInterface
 
 
 class YurenizerRepository(NormalizeRepositoryInterface):
