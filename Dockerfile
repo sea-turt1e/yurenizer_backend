@@ -1,4 +1,5 @@
-FROM python:3.11.6 as builder
+# プラットフォームを明示的に指定
+FROM --platform=linux/amd64 python:3.11.6 as builder
 WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y build-essential
@@ -9,7 +10,7 @@ COPY pyproject.toml poetry.lock ./
 
 RUN poetry export -f requirements.txt --output requirements.txt
 
-FROM public.ecr.aws/lambda/python:3.11 as executor
+FROM --platform=linux/amd64 public.ecr.aws/lambda/python:3.11 as executor
 
 WORKDIR ${LAMBDA_TASK_ROOT}
 
