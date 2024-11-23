@@ -26,6 +26,12 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def hello():
+    logger.info("get request to /")
+    return {"status": "ok"}
+
+
 app.include_router(api_router)
 handler = Mangum(app)
 
