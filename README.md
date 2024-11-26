@@ -1,5 +1,5 @@
 # yurenizer_backend
-Backend of yurenizer
+Backend of Yurenizer
 
 ## RUN LOCAL
 ```
