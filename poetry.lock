@@ -622,13 +622,13 @@ files = [
 
 [[package]]
 name = "yurenizer"
-version = "0.1.2"
+version = "0.2.1"
 description = "A library for standardizing terms with spelling variations using a synonym dictionary."
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "yurenizer-0.1.2-py3-none-any.whl", hash = "sha256:1d07e35f6b83569cb01516a3893012b5dec8cada0c93fb37eccca00cf50dcfa0"},
-    {file = "yurenizer-0.1.2.tar.gz", hash = "sha256:795d1debce1c862e63cb4a50a8a2f564661f2556d26dc6ef21678e45270992d5"},
+    {file = "yurenizer-0.2.1-py3-none-any.whl", hash = "sha256:708e89cd0863684bb253fab8760ff4473d03c909fe8ddba5ab84b197f9f1b70e"},
+    {file = "yurenizer-0.2.1.tar.gz", hash = "sha256:2a6430c04186143f4d7d786563bcc9e9b317033d374d91af2b5cfce7076b1c60"},
 ]
 
 [package.dependencies]
@@ -638,4 +638,4 @@ sudachipy = ">=0.6.8"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "44be2dd0b521ed8cb0d7ecd204de8720f402853ab497ea56317811d13675c059"
+content-hash = "7a336254ce4874a180f5e3a66c71820350fbb1958a686d425268b8b7e48185fc"

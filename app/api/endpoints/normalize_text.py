@@ -23,10 +23,10 @@ async def normalize_text(
         raise ValueError("The text is too long. Please input text less than 1000 characters.")
     config = request.config
     normalizer_config = NormalizerConfig(
-        unify_level=config.unify_level,
         taigen=config.taigen,
         yougen=config.yougen,
         expansion=config.expansion,
+        unify_level=config.unify_level,
         other_language=config.other_language,
         alias=config.alias,
         old_name=config.old_name,
