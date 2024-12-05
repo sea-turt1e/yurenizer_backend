@@ -12,7 +12,3 @@ class NormalizeTextResponse(BaseModel):
 
 class NormalizeCsvRequest(BaseModel):
     config: NormalizerConfig = NormalizerConfig()
-
-
-class NormalizeCsvResponse(BaseModel):
-    csv: str

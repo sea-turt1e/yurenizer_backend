@@ -1,9 +1,11 @@
 import logging
 
+import aiofiles
 from controllers.get_normalize_csv_controller import GetNormalizeCsvController
 from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi.responses import FileResponse
 from initializer import get_normalize_csv_controller
-from schemes.normalize import NormalizeCsvRequest, NormalizeCsvResponse
+from schemes.normalize import NormalizeCsvRequest
 from yurenizer import NormalizerConfig
 
 router = APIRouter()
@@ -11,12 +13,12 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
-@router.post("/normalize_csv", response_model=NormalizeCsvResponse)
+@router.post("/normalize_csv")
 async def normalize_csv(
     file: UploadFile = File(...),
     request: NormalizeCsvRequest = Depends(),
     controller: GetNormalizeCsvController = Depends(lambda: get_normalize_csv_controller),
-) -> NormalizeCsvResponse:
+) -> FileResponse:
     logger.info("Get request to /normalize_csv")
     contens = await file.read()
     csv_content = contens.decode("utf-8")
@@ -42,10 +44,20 @@ async def normalize_csv(
         custom_synonym=config.custom_synonym,
     )
     logger.info(f"normalizer_config: {normalizer_config}")
+    import ipdb
+
+    ipdb.set_trace()
     try:
-        result = await controller.execute(csv_content, normalizer_config)
-        logger.info(f"result: {result}")
+        normalized_csv_content = await controller.execute(csv_content, normalizer_config)
+        logger.info(f"normalized_csv_content: {normalized_csv_content}")
     except Exception as e:
         logger.error(f"error: {e}")
         raise e
-    return NormalizeCsvResponse(csv=result.csv, length=result.length)
+    else:
+        # 一時ファイルに書き込み
+        async with aiofiles.tempfile.NamedTemporaryFile("w", delete=False, suffix=".csv") as tmp:
+            temp_file_path = tmp.name
+            await tmp.write(normalized_csv_content)
+
+        # ファイルをレスポンスとして返す
+        return FileResponse(path=temp_file_path, filename="normalized.csv", media_type="text/csv")
