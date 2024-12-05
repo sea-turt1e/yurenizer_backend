@@ -1,8 +1,9 @@
+import json
 import logging
 
 import aiofiles
 from controllers.get_normalize_csv_controller import GetNormalizeCsvController
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, Form, UploadFile
 from fastapi.responses import FileResponse
 from initializer import get_normalize_csv_controller
 from schemes.normalize import NormalizeCsvRequest
@@ -20,6 +21,7 @@ async def normalize_csv(
     controller: GetNormalizeCsvController = Depends(lambda: get_normalize_csv_controller),
 ) -> FileResponse:
     logger.info("Get request to /normalize_csv")
+    # return FileResponse(path=file, filename="test.csv", media_type="text/csv")
     contens = await file.read()
     csv_content = contens.decode("utf-8")
     if len(csv_content) == 0:
@@ -44,9 +46,6 @@ async def normalize_csv(
         custom_synonym=config.custom_synonym,
     )
     logger.info(f"normalizer_config: {normalizer_config}")
-    import ipdb
-
-    ipdb.set_trace()
     try:
         normalized_csv_content = await controller.execute(csv_content, normalizer_config)
         logger.info(f"normalized_csv_content: {normalized_csv_content}")
@@ -57,7 +56,8 @@ async def normalize_csv(
         # 一時ファイルに書き込み
         async with aiofiles.tempfile.NamedTemporaryFile("w", delete=False, suffix=".csv") as tmp:
             temp_file_path = tmp.name
+            logger.info(f"temp_file_path: {temp_file_path}")
             await tmp.write(normalized_csv_content)
 
-        # ファイルをレスポンスとして返す
-        return FileResponse(path=temp_file_path, filename="normalized.csv", media_type="text/csv")
+            # ファイルをレスポンスとして返す
+            return FileResponse(path=temp_file_path, filename="normalized.csv", media_type="text/csv")
