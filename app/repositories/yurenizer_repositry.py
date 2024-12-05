@@ -1,8 +1,8 @@
-from interfaces.repositories.normalize_text_repositry import NormalizeRepositoryInterface
+from interfaces.repositories.normalize_text_repositry import NormalizeTextRepositoryInterface
 from yurenizer import NormalizerConfig, SynonymNormalizer
 
 
-class YurenizerRepository(NormalizeRepositoryInterface):
+class YurenizerRepository(NormalizeTextRepositoryInterface):
     def __init__(self, synonym_file_path: str):
         self.normalizer = SynonymNormalizer(synonym_file_path)
 

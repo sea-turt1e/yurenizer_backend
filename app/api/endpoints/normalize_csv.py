@@ -1,8 +1,8 @@
 import logging
 
-from controllers.get_normalize_controller import GetNormalizeController
-from fastapi import APIRouter, Depends
-from initializer import get_normalize_controller
+from controllers.get_normalize_csv_controller import GetNormalizeCsvController
+from fastapi import APIRouter, Depends, File, UploadFile
+from initializer import get_normalize_csv_controller
 from schemes.normalize import NormalizeCsvRequest, NormalizeCsvResponse
 from yurenizer import NormalizerConfig
 
@@ -13,14 +13,17 @@ logger = logging.getLogger(__name__)
 
 @router.post("/normalize_csv", response_model=NormalizeCsvResponse)
 async def normalize_csv(
-    request,
+    file: UploadFile = File(...),
+    request: NormalizeCsvRequest = Depends(),
+    controller: GetNormalizeCsvController = Depends(lambda: get_normalize_csv_controller),
 ) -> NormalizeCsvResponse:
     logger.info("Get request to /normalize_csv")
-    with open("test.csv", "r") as f:
-        if len(f.read()) == 0:
-            raise ValueError("csv file is empty")
-        elif len(f.read()) > 1000:
-            raise ValueError("csv file is too large")
+    contens = await file.read()
+    csv_content = contens.decode("utf-8")
+    if len(csv_content) == 0:
+        raise ValueError("csv file is empty")
+    elif len(csv_content) > 1000:
+        raise ValueError("csv file is too large")
     config = request.config
     normalizer_config = NormalizerConfig(
         taigen=config.taigen,
@@ -40,9 +43,9 @@ async def normalize_csv(
     )
     logger.info(f"normalizer_config: {normalizer_config}")
     try:
-        result = await controller.execute(csv, normalizer_config)
+        result = await controller.execute(csv_content, normalizer_config)
         logger.info(f"result: {result}")
     except Exception as e:
         logger.error(f"error: {e}")
         raise e
-    return NormalizeCsvResponse(result=result)
+    return NormalizeCsvResponse(csv=result.csv, length=result.length)
