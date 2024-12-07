@@ -1,5 +1,8 @@
 # yurenizer_backend
-Backend of Yurenizer
+Backend of Yurenizer.  
+This is implemented with the awareness of clean architecture.
+
+
 
 ## RUN LOCAL
 ```

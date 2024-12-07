@@ -1,4 +1,4 @@
-from interfaces.repositories.normalize_text_repositry import NormalizeRepositoryInterface
+from interfaces.repositories.normalize_repositry import NormalizeRepositoryInterface
 from interfaces.usecases.normalize_text_usecase import NormalizeTextUseCaseInterface
 from schemes.normalize import NormalizeTextResponse
 from yurenizer import NormalizerConfig

@@ -11,8 +11,10 @@ python = "^3.11"
 fastapi = "^0.115.4"
 uvicorn = "^0.32.0"
 mangum = "^0.19.0"
-yurenizer = "^0.1.2"
+yurenizer = "^0.2.0"
 python-dotenv = "^1.0.1"
+python-multipart = "^0.0.19"
+aiofiles = "^24.1.0"
 
 [tool.poetry.group.dev.dependencies]
 ipdb = "^0.13.13"
