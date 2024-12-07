@@ -3,7 +3,7 @@ import logging
 
 import aiofiles
 from controllers.get_normalize_csv_controller import GetNormalizeCsvController
-from fastapi import APIRouter, Depends, File, Form, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from initializer import get_normalize_csv_controller
 from schemes.normalize import NormalizeCsvRequest
@@ -54,10 +54,15 @@ async def normalize_csv(
         raise e
     else:
         # 一時ファイルに書き込み
-        async with aiofiles.tempfile.NamedTemporaryFile("w", delete=False, suffix=".csv") as tmp:
+        async with aiofiles.tempfile.NamedTemporaryFile("w", delete=True, suffix=".csv") as tmp:
             temp_file_path = tmp.name
             logger.info(f"temp_file_path: {temp_file_path}")
-            await tmp.write(normalized_csv_content)
-
-            # ファイルをレスポンスとして返す
+            try:
+                await tmp.write(normalized_csv_content)
+                await tmp.flush()
+                await tmp.close()
+            except Exception as e:
+                logger.error(f"一時ファイルへの書き込み中にエラーが発生しました: {e}")
+                raise HTTPException(status_code=500, detail="一時ファイルへの書き込みに失敗しました")
+            # ファイルをレスポンスとして返す。レスポンスとして返した後は一時ファイルを削除する
             return FileResponse(path=temp_file_path, filename="normalized.csv", media_type="text/csv")

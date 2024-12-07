@@ -8,8 +8,8 @@ class NormalizeRepositoryInterface(ABC):
     async def normalize_text(self, text: str, config: NormalizerConfig = NormalizerConfig()) -> str:
         pass
 
-
-class NormalizeCsvRepositoryInterface(ABC):
     @abstractmethod
-    async def normalize_csv(self, csv: str, config: NormalizerConfig = NormalizerConfig()) -> str:
+    async def normalize_csv(
+        self, input_file_path: str, output_file_path: str, config: NormalizerConfig = NormalizerConfig()
+    ) -> str:
         pass
