@@ -1,8 +1,8 @@
 import logging
 
-from controllers.get_normalize_controller import GetNormalizeController
+from controllers.get_normalize_text_controller import GetNormalizeTextController
 from fastapi import APIRouter, Depends
-from initializer import get_normalize_controller
+from initializer import get_normalize_text_controller
 from schemes.normalize import NormalizeTextRequest, NormalizeTextResponse
 from yurenizer import NormalizerConfig
 
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 async def normalize_text(
     text: str,
     request: NormalizeTextRequest,
-    controller: GetNormalizeController = Depends(lambda: get_normalize_controller),
+    controller: GetNormalizeTextController = Depends(lambda: get_normalize_text_controller),
 ):
     logger.info("Get request to /normalize_text")
     logger.info(f"text: {text}")
@@ -23,10 +23,10 @@ async def normalize_text(
         raise ValueError("The text is too long. Please input text less than 1000 characters.")
     config = request.config
     normalizer_config = NormalizerConfig(
-        unify_level=config.unify_level,
         taigen=config.taigen,
         yougen=config.yougen,
         expansion=config.expansion,
+        unify_level=config.unify_level,
         other_language=config.other_language,
         alias=config.alias,
         old_name=config.old_name,

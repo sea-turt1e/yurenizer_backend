@@ -8,3 +8,7 @@ class NormalizeTextRequest(BaseModel):
 
 class NormalizeTextResponse(BaseModel):
     text: str
+
+
+class NormalizeCsvRequest(BaseModel):
+    config: NormalizerConfig = NormalizerConfig()
