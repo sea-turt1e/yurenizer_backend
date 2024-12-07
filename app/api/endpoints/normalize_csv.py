@@ -3,10 +3,11 @@ import logging
 
 import aiofiles
 from controllers.get_normalize_csv_controller import GetNormalizeCsvController
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from initializer import get_normalize_csv_controller
 from schemes.normalize import NormalizeCsvRequest
+from utils.crud_file import delete_file
 from yurenizer import NormalizerConfig
 
 router = APIRouter()
@@ -18,7 +19,9 @@ logger = logging.getLogger(__name__)
 async def normalize_csv(
     file: UploadFile = File(...),
     request: NormalizeCsvRequest = Depends(),
+    *,
     controller: GetNormalizeCsvController = Depends(lambda: get_normalize_csv_controller),
+    background_tasks: BackgroundTasks,
 ) -> FileResponse:
     logger.info("Get request to /normalize_csv")
     # return FileResponse(path=file, filename="test.csv", media_type="text/csv")
@@ -26,7 +29,7 @@ async def normalize_csv(
     csv_content = contens.decode("utf-8")
     if len(csv_content) == 0:
         raise ValueError("csv file is empty")
-    elif len(csv_content) > 1000:
+    elif len(csv_content) > 100000:
         raise ValueError("csv file is too large")
     config = request.config
     normalizer_config = NormalizerConfig(
@@ -47,22 +50,21 @@ async def normalize_csv(
     )
     logger.info(f"normalizer_config: {normalizer_config}")
     try:
-        normalized_csv_content = await controller.execute(csv_content, normalizer_config)
-        logger.info(f"normalized_csv_content: {normalized_csv_content}")
+        normalized_list = await controller.execute(csv_content, normalizer_config)
+        logger.info(f"normalized_list: {normalized_list}")
     except Exception as e:
         logger.error(f"error: {e}")
         raise e
     else:
-        # 一時ファイルに書き込み
-        async with aiofiles.tempfile.NamedTemporaryFile("w", delete=True, suffix=".csv") as tmp:
-            temp_file_path = tmp.name
-            logger.info(f"temp_file_path: {temp_file_path}")
-            try:
-                await tmp.write(normalized_csv_content)
-                await tmp.flush()
-                await tmp.close()
-            except Exception as e:
-                logger.error(f"一時ファイルへの書き込み中にエラーが発生しました: {e}")
-                raise HTTPException(status_code=500, detail="一時ファイルへの書き込みに失敗しました")
-            # ファイルをレスポンスとして返す。レスポンスとして返した後は一時ファイルを削除する
-            return FileResponse(path=temp_file_path, filename="normalized.csv", media_type="text/csv")
+        try:
+            async with aiofiles.tempfile.NamedTemporaryFile("w", delete=False, suffix=".csv") as tmp:
+                temp_file_path = tmp.name
+                logger.info(f"temp_file_path: {temp_file_path}")
+                await tmp.write("\n".join(normalized_list))
+        except Exception as e:
+            logger.error(f"error: {e}")
+            raise e
+
+    # レスポンス送信後に一時ファイルを削除するタスクを追加
+    background_tasks.add_task(delete_file, temp_file_path)
+    return FileResponse(path=temp_file_path, filename="normalized.csv", media_type="text/csv")
