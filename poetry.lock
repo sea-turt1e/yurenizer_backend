@@ -660,4 +660,4 @@ sudachipy = ">=0.6.8"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "608329c1d205f6544c142b299277ed36d48430a4139a396bad9dfffdbd5fc395"
+content-hash = "e05be89684e75822ecaedfb760d541697065aa15844cce90a907d02b2acf14f0"
